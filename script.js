@@ -23,6 +23,12 @@ let lockBoard = false;
 */
 function initGame() {
     // Write your code here
+    const gameBoard = document.getElementById("game-board")
+    gameBoard.innerHTML = ""
+    cards = []
+    for (let i = 0; i < symbols.length; i++){
+        let card = cre
+    }
 
     document.getElementById('restart-btn').addEventListener('click', initGame);
 }
