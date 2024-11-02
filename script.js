@@ -27,9 +27,16 @@ function initGame() {
     gameBoard.innerHTML = ""
     cards = []
     for (let i = 0; i < symbols.length; i++){
-        let card = cre
+        let card = createCard(symbols[i])
+        cards.push(card)
+        card = createCard(symbols[i])
+        cards.push(card)
     }
-
+    shuffleArray(cards)
+    cards.forEach(cardElement => {
+        gameBoard.appendChild(cardElement)
+    })
+    resetBoard()
     document.getElementById('restart-btn').addEventListener('click', initGame);
 }
 
@@ -40,6 +47,13 @@ function initGame() {
 */
 function createCard(symbol) {
     // Write your code here
+    const card = document.createElement("div")
+    card.classList.add("card")
+    card.dataset.symbol = symbol
+    card.addEventListener("click", () => {
+        flipCard(card)
+    })
+    return card
 }
 
 /*
@@ -54,6 +68,16 @@ function flipCard(card) {
     // If the board is supposed to be locked or you picked the same card you already picked
     if (lockBoard || card === firstCard) return;
     // Write your code here
+
+    card.classList.add("flipped")
+    card.textContent = card.dataset.symbol
+
+    if (!firstCard){
+        firstCard = card
+    } else {
+        secondCard = card
+        checkForMatch()
+    }
 }
 
 /* 
@@ -63,6 +87,12 @@ function flipCard(card) {
 */
 function checkForMatch() {
     // Write your code here
+    if (firstCard.dataset.symbol === secondCard.dataset.symbol){
+        disableCards()
+    } else {
+        unflipCards()
+    }
+
 }
 
 /* 
@@ -72,6 +102,9 @@ function checkForMatch() {
 */
 function disableCards() {
     // Write your code here
+    firstCard.classList.add("matched")
+    secondCard.classList.add("matched")
+    resetBoard()
 }
  
 /* ---------------------  Everything under has already been done for you -------------------------- */
